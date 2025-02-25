@@ -1,0 +1,52 @@
+CREATE DATABASE  K22CNT3_NGUYENDANHTRUONG_2210900071_Project3;
+USE K22CNT3_NGUYENDANHTRUONG_2210900071_Project3;
+  --- 1 chủ trọ 
+  CREATE TABLE IF NOT EXISTS ChuTro (
+    id_chutro INT PRIMARY KEY AUTO_INCREMENT,
+    ho_ten VARCHAR(100) NOT NULL,
+    so_dien_thoai VARCHAR(15) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    dia_chi TEXT
+);
+---- 2 phòng trọ 
+CREATE TABLE IF NOT EXISTS PhongTro (
+    id_phong INT PRIMARY KEY AUTO_INCREMENT,
+    so_phong VARCHAR(10) UNIQUE NOT NULL,
+    id_chutro INT,
+    gia_thue DECIMAL(10,2) NOT NULL,
+    dien_tich FLOAT NOT NULL,
+    trang_thai ENUM('Trống', 'Đã Thuê') DEFAULT 'Trống',
+    id_nguoithue INT,  -- Thêm thông tin người thuê vào bảng phòng
+    ngay_bat_dau DATE,  -- Ngày bắt đầu thuê
+    ngay_ket_thuc DATE,  -- Ngày kết thúc thuê
+    tien_dat_coc DECIMAL(10,2),  -- Tiền đặt cọc
+    FOREIGN KEY (id_chutro) REFERENCES ChuTro(id_chutro) ON DELETE CASCADE,
+    FOREIGN KEY (id_nguoithue) REFERENCES NguoiThue(id_nguoithue) ON DELETE SET NULL
+);
+----- 3  người thuê 
+CREATE TABLE IF NOT EXISTS NguoiThue (
+    id_nguoithue INT PRIMARY KEY AUTO_INCREMENT,
+    ho_ten VARCHAR(100) NOT NULL,
+    so_dien_thoai VARCHAR(15) UNIQUE NOT NULL,
+    cccd VARCHAR(12) UNIQUE NOT NULL,  
+    dia_chi TEXT,
+    ngay_sinh DATE,
+    email VARCHAR(100) UNIQUE
+);
+---- 4 hóa đơn
+CREATE TABLE IF NOT EXISTS HoaDon (
+    id_hoadon INT PRIMARY KEY AUTO_INCREMENT,
+    id_phong INT,
+    ngay_lap DATE NOT NULL,
+    tong_tien DECIMAL(15,2) NOT NULL,
+    trang_thai ENUM('Chưa thanh toán', 'Đã thanh toán') DEFAULT 'Chưa thanh toán',
+    chi_tiet TEXT,  -- Lưu JSON hoặc chuỗi mô tả chi tiết hóa đơn
+    FOREIGN KEY (id_phong) REFERENCES PhongTro(id_phong) ON DELETE CASCADE
+);
+---  5 dịch vụ 
+CREATE TABLE IF NOT EXISTS DichVu (
+    id_dichvu INT PRIMARY KEY AUTO_INCREMENT,
+    ten_dich_vu VARCHAR(100) NOT NULL,
+    don_vi_tinh VARCHAR(20),
+    gia DECIMAL(10,2) NOT NULL
+);
