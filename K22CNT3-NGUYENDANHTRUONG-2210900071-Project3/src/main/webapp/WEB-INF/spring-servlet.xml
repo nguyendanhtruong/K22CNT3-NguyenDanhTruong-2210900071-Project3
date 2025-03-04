@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- Quét các component trong package controller -->
+    <context:component-scan base-package="controller"/>
+
+    <!-- Cấu hình View Resolver -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!-- Cấu hình DataSource -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/K22CNT3_NGUYENDANHTRUONG_2210900071_Project3?serverTimezone=UTC"/>
+        <property name="username" value="root"/>
+        <property name="password" value="2210900071"/>
+    </bean>
+
+    <!-- Cấu hình JdbcTemplate -->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- Bean cho KhachThueDAO -->
+    <bean id="khachThueDAO" class="model.KhachThueDAO">
+        <property name="template" ref="jdbcTemplate"/>
+    </bean>
+
+
+    <!-- Bean cho HoaDonDAO -->
+    <bean id="hoaDonDAO" class="model.HoaDonDAO">
+        <property name="template" ref="jdbcTemplate"/>
+    </bean>
+
+    <!-- Bean cho ThongKeDAO -->
+    <bean id="thongKeDAO" class="model.ThongKeDAO">
+        <constructor-arg ref="jdbcTemplate"/>
+    </bean>
+    <!-- PhongTroDAO -->
+    <bean id="phongTroDAO" class="model.PhongTroDAO">
+        <constructor-arg ref="jdbcTemplate"/>
+    </bean>
+</beans>
