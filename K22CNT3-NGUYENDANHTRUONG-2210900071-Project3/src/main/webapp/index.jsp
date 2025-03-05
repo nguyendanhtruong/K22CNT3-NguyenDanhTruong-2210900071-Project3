@@ -74,10 +74,10 @@
             <li><a href="#" class="active">Trang chủ</a></li>
             <li><a href="${pageContext.request.contextPath}/phongtro/list">Quản Lý Phòng Trọ</a>
             </li>
-            <li><a href="${pageContext.request.contextPath}/khachThue">Khách thuê</a>
+            <li><a href="${pageContext.request.contextPath}/khachthue/list">Khách thuê</a>
             </li>
-            <li><a href="${pageContext.request.contextPath}/hoaDon">Hóa đơn</a></li>
-            <li><a href="${pageContext.request.contextPath}/admin/thongke">Thống Kê</a></li>
+            <li><a href="${pageContext.request.contextPath}/hoadon/list">Hóa đơn</a></li>
+            <li><a href="${pageContext.request.contextPath}/thongke/thongke">Thống Kê</a></li>
             <li><a href="${pageContext.request.contextPath}/admin/dashboard">Admin</a></li>
 
             <li><a href="#">Đăng xuất</a></li>

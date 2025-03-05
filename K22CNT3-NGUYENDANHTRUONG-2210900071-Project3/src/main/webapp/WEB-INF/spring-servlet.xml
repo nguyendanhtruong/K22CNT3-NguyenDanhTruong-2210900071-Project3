@@ -9,8 +9,10 @@
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!-- Quét các component trong package controller -->
-    <context:component-scan base-package="controller"/>
+    <!-- Quét component trong package model (DAO) và controller -->
+    <context:component-scan base-package="model,controller"/>
+
+
 
     <!-- Cấu hình View Resolver -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -31,23 +33,4 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <!-- Bean cho KhachThueDAO -->
-    <bean id="khachThueDAO" class="model.KhachThueDAO">
-        <property name="template" ref="jdbcTemplate"/>
-    </bean>
-
-
-    <!-- Bean cho HoaDonDAO -->
-    <bean id="hoaDonDAO" class="model.HoaDonDAO">
-        <property name="template" ref="jdbcTemplate"/>
-    </bean>
-
-    <!-- Bean cho ThongKeDAO -->
-    <bean id="thongKeDAO" class="model.ThongKeDAO">
-        <constructor-arg ref="jdbcTemplate"/>
-    </bean>
-    <!-- PhongTroDAO -->
-    <bean id="phongTroDAO" class="model.PhongTroDAO">
-        <constructor-arg ref="jdbcTemplate"/>
-    </bean>
 </beans>
