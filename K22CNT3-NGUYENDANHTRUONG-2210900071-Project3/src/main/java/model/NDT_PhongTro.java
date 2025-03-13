@@ -1,7 +1,6 @@
 package model;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 public class NDT_PhongTro {
     private String NDT_maPhong;
@@ -14,6 +13,7 @@ public class NDT_PhongTro {
     private int NDT_chiSoDienCu;
     private int NDT_chiSoNuocMoi;
     private int NDT_chiSoNuocCu;
+    private String NDT_moTa; // ✅ Thêm thuộc tính mô tả
 
     // Getters and Setters
     public String getNDT_maPhong() { return NDT_maPhong; }
@@ -45,4 +45,7 @@ public class NDT_PhongTro {
 
     public int getNDT_chiSoNuocCu() { return NDT_chiSoNuocCu; }
     public void setNDT_chiSoNuocCu(int NDT_chiSoNuocCu) { this.NDT_chiSoNuocCu = NDT_chiSoNuocCu; }
+
+    public String getNDT_moTa() { return NDT_moTa; } // ✅ Getter cho mô tả
+    public void setNDT_moTa(String NDT_moTa) { this.NDT_moTa = NDT_moTa; } // ✅ Setter cho mô tả
 }

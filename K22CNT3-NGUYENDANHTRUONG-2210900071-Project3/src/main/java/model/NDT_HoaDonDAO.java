@@ -52,4 +52,10 @@ public class NDT_HoaDonDAO {
             );
         }
     }
+    public double calculateMonthlyRevenue() {
+        String sql = "SELECT SUM(NDT_tien) FROM NDT_tblHoaDon WHERE MONTH(NDT_tgian) = MONTH(CURRENT_DATE()) AND YEAR(NDT_tgian) = YEAR(CURRENT_DATE())";
+        Double revenue = jdbcTemplate.queryForObject(sql, Double.class);
+        return revenue != null ? revenue : 0.0;
+    }
+
 }

@@ -13,6 +13,8 @@
     Giá Thuê: <input type="number" name="NDT_giaThue" value="${phongTro.NDT_giaThue}" required /><br/>
     Đối Tượng Thuê: <input type="text" name="NDT_DoiTuongThue" value="${phongTro.NDT_DoiTuongThue}" required /><br/>
     Tình Trạng: <input type="text" name="NDT_TinhTrang" value="${phongTro.NDT_TinhTrang}" required /><br/>
+    Mô Tả: <input type="text" name="NDT_moTa" value="${phongTro.NDT_moTa}" required /><br/>
+
 
     <input type="submit" value="Lưu" />
 </form>

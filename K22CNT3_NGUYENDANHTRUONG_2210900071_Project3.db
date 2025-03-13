@@ -1,52 +1,93 @@
-CREATE DATABASE  K22CNT3_NGUYENDANHTRUONG_2210900071_Project3;
+-- Tạo cơ sở dữ liệu
+CREATE DATABASE K22CNT3_NGUYENDANHTRUONG_2210900071_Project3;
 USE K22CNT3_NGUYENDANHTRUONG_2210900071_Project3;
-  --- 1 chủ trọ 
-  CREATE TABLE IF NOT EXISTS ChuTro (
-    id_chutro INT PRIMARY KEY AUTO_INCREMENT,
-    ho_ten VARCHAR(100) NOT NULL,
-    so_dien_thoai VARCHAR(15) UNIQUE NOT NULL,
-    email VARCHAR(100) UNIQUE,
-    dia_chi TEXT
+
+-- Tạo bảng Quản lý Phòng trọ
+CREATE TABLE NDT_tblQlyPhongTro( 
+    NDT_maPhong CHAR(5) PRIMARY KEY,
+    NDT_dienTich FLOAT,
+    NDT_soNguoi INT,
+    NDT_giaThue DECIMAL(15,2), -- Định dạng số tiền
+    NDT_DoiTuongThue VARCHAR(10),
+    NDT_TinhTrang VARCHAR(20),
+    NDT_chiSoDienMoi INT,
+    NDT_chiSoDienCu INT,
+    NDT_chiSoNuocMoi INT,
+    NDT_chiSoNuocCu  INT,
+	NDT_moTa TEXT -- Cột mô tả phòng trọ
 );
----- 2 phòng trọ 
-CREATE TABLE IF NOT EXISTS PhongTro (
-    id_phong INT PRIMARY KEY AUTO_INCREMENT,
-    so_phong VARCHAR(10) UNIQUE NOT NULL,
-    id_chutro INT,
-    gia_thue DECIMAL(10,2) NOT NULL,
-    dien_tich FLOAT NOT NULL,
-    trang_thai ENUM('Trống', 'Đã Thuê') DEFAULT 'Trống',
-    id_nguoithue INT,  -- Thêm thông tin người thuê vào bảng phòng
-    ngay_bat_dau DATE,  -- Ngày bắt đầu thuê
-    ngay_ket_thuc DATE,  -- Ngày kết thúc thuê
-    tien_dat_coc DECIMAL(10,2),  -- Tiền đặt cọc
-    FOREIGN KEY (id_chutro) REFERENCES ChuTro(id_chutro) ON DELETE CASCADE,
-    FOREIGN KEY (id_nguoithue) REFERENCES NguoiThue(id_nguoithue) ON DELETE SET NULL
+
+-- Tạo bảng Khách thuê
+CREATE TABLE NDT_tblKhachThue(
+    NDT_maKT CHAR(5) PRIMARY KEY,
+    NDT_HoTen VARCHAR(50),
+    NDT_NgaySinh DATE,
+    NDT_NgheNghiep VARCHAR(50),
+    NDT_GioiTinh VARCHAR(10),
+    NDT_Sdt VARCHAR(10),
+    NDT_QueQuan VARCHAR(50),
+    NDT_maPhong CHAR(5),
+    FOREIGN KEY (NDT_maPhong) REFERENCES NDT_tblQlyPhongTro(NDT_maPhong) ON UPDATE CASCADE ON DELETE SET NULL
 );
------ 3  người thuê 
-CREATE TABLE IF NOT EXISTS NguoiThue (
-    id_nguoithue INT PRIMARY KEY AUTO_INCREMENT,
-    ho_ten VARCHAR(100) NOT NULL,
-    so_dien_thoai VARCHAR(15) UNIQUE NOT NULL,
-    cccd VARCHAR(12) UNIQUE NOT NULL,  
-    dia_chi TEXT,
-    ngay_sinh DATE,
-    email VARCHAR(100) UNIQUE
+
+-- Tạo bảng Hóa đơn
+CREATE TABLE NDT_tblHoaDon(
+    NDT_maHD CHAR(5) PRIMARY KEY,
+    NDT_maKT CHAR(5),
+    NDT_maPhong CHAR(5),
+    NDT_tgian DATE,
+    FOREIGN KEY (NDT_maKT) REFERENCES NDT_tblKhachThue(NDT_maKT) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (NDT_maPhong) REFERENCES NDT_tblQlyPhongTro(NDT_maPhong) ON UPDATE CASCADE ON DELETE CASCADE
 );
----- 4 hóa đơn
-CREATE TABLE IF NOT EXISTS HoaDon (
-    id_hoadon INT PRIMARY KEY AUTO_INCREMENT,
-    id_phong INT,
-    ngay_lap DATE NOT NULL,
-    tong_tien DECIMAL(15,2) NOT NULL,
-    trang_thai ENUM('Chưa thanh toán', 'Đã thanh toán') DEFAULT 'Chưa thanh toán',
-    chi_tiet TEXT,  -- Lưu JSON hoặc chuỗi mô tả chi tiết hóa đơn
-    FOREIGN KEY (id_phong) REFERENCES PhongTro(id_phong) ON DELETE CASCADE
+
+-- Tạo bảng tài khoản (Gồm cả Admin & User)
+CREATE TABLE NDT_taiKhoan (
+    NDT_UserName VARCHAR(30) PRIMARY KEY,
+    NDT_Pass VARCHAR(20) NOT NULL,  -- Tăng độ dài lên 20 ký tự
+    NDT_role ENUM('admin', 'user') NOT NULL  -- Phân quyền
 );
----  5 dịch vụ 
-CREATE TABLE IF NOT EXISTS DichVu (
-    id_dichvu INT PRIMARY KEY AUTO_INCREMENT,
-    ten_dich_vu VARCHAR(100) NOT NULL,
-    don_vi_tinh VARCHAR(20),
-    gia DECIMAL(10,2) NOT NULL
-);
+
+INSERT INTO NDT_tblQlyPhongTro (NDT_maPhong, NDT_dienTich, NDT_soNguoi, NDT_giaThue, NDT_DoiTuongThue, NDT_TinhTrang, NDT_chiSoDienMoi, NDT_chiSoDienCu, NDT_chiSoNuocMoi, NDT_chiSoNuocCu, NDT_moTa) 
+VALUES
+('PH001', 35, 4, 3000000.00, 'Nam & Nu', 'Trong', 5, 0, 0, 0, 'Phòng rộng rãi, có ban công thoáng mát.'),
+('PH002', 25, 3, 3000000.00, 'Nam', 'Trong', 0, 0, 0, 0, 'Phòng dành cho nam, có cửa sổ lớn, nhiều ánh sáng.'),
+('PH003', 25, 3, 3000000.00, 'Nu', 'Da Thue', 5, 0, 0, 0, 'Phòng sạch sẽ, phù hợp với nữ, có nhà vệ sinh riêng.'),
+('PH004', 30, 4, 4000000.00, 'Nu', 'Trong', 5, 0, 0, 0, 'Phòng rộng, có bếp riêng, phù hợp cho nhóm bạn.'),
+('PH005', 30, 4, 3000000.00, 'Nu', 'Da Thue', 5, 0, 0, 0, 'Phòng thoáng mát, có máy lạnh, đã có người thuê.'),
+('PH006', 20, 3, 3000000.00, 'Nam', 'Trong', 0, 0, 0, 0, 'Phòng nhỏ gọn, giá hợp lý, gần khu trung tâm.'),
+('PH007', 25, 3, 3000000.00, 'Nam & Nu', 'Da Thue', 5, 0, 0, 0, 'Phòng cho cả nam & nữ, đầy đủ nội thất.'),
+('PH008', 30, 3, 3000000.00, 'Nam & Nu', 'Trong', 0, 0, 0, 0, 'Phòng có ban công, view đẹp, gần chợ.'),
+('PH009', 35, 4, 4000000.00, 'Nam & Nu', 'Da Thue', 5, 0, 0, 0, 'Phòng cao cấp, có máy lạnh, nội thất hiện đại.');
+
+-- Chèn dữ liệu vào bảng Khách thuê
+INSERT INTO NDT_tblKhachThue VALUES
+('KH001', 'Nguyen Danh Truong', '2004-02-05', 'Sinh Vien', 'Nam', '0797475264', 'Ninh Binh', 'PH007'),
+('KH002', 'Dinh Cong Dinh', '2004-01-21', 'Sinh Vien', 'Nam', '0399355483', 'Ninh Binh', 'PH007'),
+('KH003', 'Le Thi C', '1999-02-01', 'Sinh Vien', 'Nu', '0797475264', 'Ha Noi', 'PH007'),
+('KH004', 'Nguyen Van D', '2000-03-20', 'Sinh Vien', 'Nam', '0797475264', 'Vinh Phuc', 'PH009'),
+('KH005', 'Nguyen Hoang Ke L', '2002-06-30', 'Sinh Vien', 'Nam', '0797475264', 'Ha Noi', 'PH009'),
+('KH006', 'Phan Thi Thanh T', '2001-06-20', 'Sinh Vien', 'Nu', '0797475264', 'Ha Noi', 'PH003'),
+('KH007', 'Tuong Thi My Ng', '1999-06-12', 'Cong Nhan', 'Nu', '0797475264', 'Ha Noi', 'PH005'),
+('KH008', 'Le Thi C', '2002-07-30', 'Sinh Vien', 'Nu', '0797475264', 'Vinh Phuc', 'PH005'),
+('KH009', 'Le Van D', '2002-08-10', 'Cong Nhan', 'Nam', '0797475264', 'Vinh Phuc', 'PH009'),
+('KH010', 'Le Thi C', '2001-12-12', 'Sinh Vien', 'Nu', '0797475264', 'Vinh Phuc', 'PH003'),
+('KH011', 'Nguyen Van Hoa', '2001-01-07', 'Sinh Vien', 'Nam', '0797475264', 'Bac Ninh', 'PH009');
+
+-- Chèn dữ liệu vào bảng Hóa đơn
+INSERT INTO NDT_tblHoaDon VALUES
+('HD001', 'KH011', 'PH009', CURDATE()),
+('HD002', 'KH007', 'PH005', CURDATE()),
+('HD003', 'KH001', 'PH007', '2021-04-01'),
+('HD004', 'KH003', 'PH005', CURDATE());
+
+-- Chèn dữ liệu vào bảng tài khoản quản trị & user
+INSERT INTO NDT_taiKhoan VALUES 
+('truong', '2210900071', 'admin'),
+('user1', 'password123', 'user'),
+('user2', '123456', 'user');
+
+-- Kiểm tra dữ liệu
+SELECT * FROM NDT_tblQlyPhongTro;
+SELECT * FROM NDT_tblKhachThue;
+SELECT * FROM NDT_tblHoaDon;
+SELECT * FROM NDT_taiKhoan;

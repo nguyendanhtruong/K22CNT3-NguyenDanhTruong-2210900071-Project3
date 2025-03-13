@@ -37,4 +37,10 @@ public class NDT_ThongKeDAO {
 
         return thongKe;
     }
+    public int countStatistics() {
+        String sql = "SELECT COUNT(*) FROM NDT_tblThongKe";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class);
+        return count != null ? count : 0;
+    }
+
 }

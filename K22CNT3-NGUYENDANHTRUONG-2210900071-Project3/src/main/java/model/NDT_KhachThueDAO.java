@@ -49,4 +49,10 @@ public class NDT_KhachThueDAO {
         String sql = "DELETE FROM NDT_tblKhachThue WHERE NDT_maKT = ?";
         return jdbcTemplate.update(sql, NDT_maKT);
     }
+    public int countKhachThue() {
+        String sql = "SELECT COUNT(*) FROM NDT_tblKhachThue";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class);
+        return count != null ? count : 0;
+    }
+
 }

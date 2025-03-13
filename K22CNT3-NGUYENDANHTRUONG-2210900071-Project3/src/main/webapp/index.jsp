@@ -5,136 +5,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý phòng trọ</title>
-
-    <!-- Bootstrap 5 -->
+    <title>Cho Thuê Phòng Trọ</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-
     <style>
-        /* Tùy chỉnh thêm CSS */
         body {
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
+            animation: fadeIn 1s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         header {
             background-color: #007bff;
             color: white;
             padding: 15px;
-        }
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-        }
-        nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-        }
-        nav ul li {
-            margin-right: 20px;
-        }
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .dashboard, .actions {
-            background: white;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-        .stat-item {
-            padding: 15px;
-            background: #007bff;
-            color: white;
             text-align: center;
-            border-radius: 5px;
+            position: relative;
         }
-        .btn {
-            margin: 10px;
+        .login-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+        .header-buttons {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .carousel-inner img {
+            border-radius: 10px;
+            max-height: 300px;
+            object-fit: cover;
+        }
+        .room-list .card {
+            transition: transform 0.3s ease-in-out;
+        }
+        .room-list .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         footer {
-            text-align: center;
-            padding: 15px;
             background: #343a40;
             color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
-<!-- Header -->
-<header class="d-flex justify-content-between align-items-center px-4">
-    <div class="logo">Quản lý phòng trọ</div>
-    <nav>
-        <ul class="d-flex">
-            <li><a href="#" class="active">Trang chủ</a></li>
-            <li><a href="${pageContext.request.contextPath}/phongtro/list">Quản Lý Phòng Trọ</a>
-            </li>
-            <li><a href="${pageContext.request.contextPath}/khachthue/list">Khách thuê</a>
-            </li>
-            <li><a href="${pageContext.request.contextPath}/hoadon/list">Hóa đơn</a></li>
-            <li><a href="${pageContext.request.contextPath}/thongke/thongke">Thống Kê</a></li>
-            <li><a href="${pageContext.request.contextPath}/admin/dashboard">Admin</a></li>
-
-            <li><a href="#">Đăng xuất</a></li>
-        </ul>
-    </nav>
+<header>
+    <div class="header-buttons">
+        <button type="button" class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#aboutModal">Giới thiệu</button>
+        <button type="button" class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#contactModal">Liên hệ</button>
+    </div>
+    <h1>Cho Thuê Phòng Trọ</h1>
+    <a href="${pageContext.request.contextPath}/admin/AdminDashboard" class="btn btn-light btn-sm login-btn">Đăng Nhập</a>
 </header>
 
-<!-- Main Content -->
-<main class="container">
-    <!-- Dashboard -->
-    <section class="dashboard">
-        <h2 class="text-primary">Tổng quan</h2>
-        <div class="row text-center">
-            <div class="col-md-4">
-                <div class="stat-item">
-                    <h3>Tổng số phòng</h3>
-                    <p>20</p>
-                </div>
+<section class="container my-4">
+    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://xaydungaau.com/wp-content/uploads/2023/12/luu-y-thiet-ke-noi-that-phong-tro-an.jpg" class="d-block w-100" alt="Banner Khuyến Mãi">
             </div>
-            <div class="col-md-4">
-                <div class="stat-item bg-success">
-                    <h3>Phòng trống</h3>
-                    <p>5</p>
-                </div>
+            <div class="carousel-item">
+                <img src="https://xaydungaau.com/wp-content/uploads/2023/12/thiet-ke-noi-that-phong-tro-an-tuong-tien-nghi.jpg" class="d-block w-100" alt="Banner Khuyến Mãi">
             </div>
-            <div class="col-md-4">
-                <div class="stat-item bg-danger">
-                    <h3>Phòng đang thuê</h3>
-                    <p>15</p>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+    <div class="text-center mt-3">
+        <a href="${pageContext.request.contextPath}/admin/AdminDashboard" class="btn btn-success btn-lg">Thuê Phòng</a>
+    </div>
+</section>
+
+<div class="container mt-5">
+    <h2 class="text-center text-primary">Danh Sách Phòng Trọ</h2>
+    <div class="row room-list">
+        <div class="col-md-4">
+            <div class="card">
+                <img src="https://i-connect.com.vn/data/news/7046/anh-2-phong-tro-rong.jpg" class="card-img-top" alt="Phòng Trọ">
+                <div class="card-body">
+                    <h5 class="card-title">Phòng Trọ 20m²</h5>
+                    <p class="card-text">Giá: 3.500.000 VND/tháng</p>
+                    <p>Tiện nghi đầy đủ, gần trung tâm.</p>
                 </div>
             </div>
         </div>
-        <div class="finance mt-4 p-3 border rounded bg-light">
-            <h3 class="text-secondary">Tài chính tháng này</h3>
-            <p><strong>Tổng tiền:</strong> 10,000,000 VND</p>
-            <p><strong>Đã thu:</strong> 8,000,000 VND</p>
-            <p><strong>Chưa thu:</strong> 2,000,000 VND</p>
+        <div class="col-md-4">
+            <div class="card">
+                <img src="https://i-connect.com.vn/data/news/7046/anh-32-vach-ngan-phong-tro-thong-minh-da-nang.jpg" class="card-img-top" alt="Phòng Trọ">
+                <div class="card-body">
+                    <h5 class="card-title">Phòng Trọ 25m²</h5>
+                    <p class="card-text">Giá: 4.200.000 VND/tháng</p>
+                    <p>Ban công rộng, khu an ninh.</p>
+                </div>
+            </div>
         </div>
-    </section>
+        <div class="col-md-4">
+            <div class="card">
+                <img src="https://bandon.vn/uploads/posts/thiet-ke-nha-tro-dep-2020-bandon-0.jpg" class="card-img-top" alt="Phòng Trọ">
+                <div class="card-body">
+                    <h5 class="card-title">Phòng Trọ 30m²</h5>
+                    <p class="card-text">Giá: 5.000.000 VND/tháng</p>
+                    <p>Máy lạnh, wifi miễn phí.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <!-- Quick Actions -->
-    <section class="actions text-center">
-        <h2 class="text-primary">Thao tác nhanh</h2>
-        <button class="btn btn-primary">Thêm phòng mới</button>
-        <button class="btn btn-success">Thêm khách thuê</button>
-        <button class="btn btn-warning">Tạo hóa đơn</button>
-    </section>
-</main>
+<!-- Modal Giới thiệu -->
+<div class="modal fade" id="aboutModal" tabindex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="aboutModalLabel">Giới thiệu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Chào mừng bạn đến với dịch vụ cho thuê phòng trọ của chúng tôi! Chúng tôi cung cấp các phòng trọ tiện nghi, giá cả hợp lý, phù hợp với nhiều nhu cầu khác nhau. Được quản lý bởi Nguyễn Danh Trường, mục tiêu của chúng tôi là mang đến sự thoải mái và hài lòng cho khách hàng.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-<!-- Footer -->
+<!-- Modal Liên hệ -->
+<div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="contactModalLabel">Liên hệ</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ul class="list-unstyled">
+                    <li><strong>Hotline:</strong> 0797475264</li>
+                    <li><strong>Email:</strong> nguyendanhtruong@example.com</li>
+                    <li><strong>Địa chỉ:</strong> 123 Đường ABC, Quận XYZ, TP.HCM</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <footer>
-    <p>&copy; 2025 Quản lý phòng trọ. All rights reserved.</p>
-    <p>Liên hệ: <a href="mailto:support@example.com" class="text-light">support@example.com</a></p>
+    <p>© Nguyễn Danh Trường . Hotline: 0797475264</p>
 </footer>
 
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 </html>
