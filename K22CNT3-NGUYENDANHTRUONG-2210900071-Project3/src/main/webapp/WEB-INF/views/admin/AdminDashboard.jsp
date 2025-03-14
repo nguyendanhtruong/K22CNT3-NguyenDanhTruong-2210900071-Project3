@@ -76,12 +76,11 @@
         <i class="fas fa-user-shield fa-3x"></i>
         <h4>Admin</h4>
     </div>
-    <a href="#" onclick="loadDashboard('${pageContext.request.contextPath}/admin/taikhoan')"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+    <a href="#" onclick="loadDashboard('${pageContext.request.contextPath}/admin/taikhoan')"><i class="fas fa-tachometer-alt"></i> Tài Khoản </a>
     <a href="#" onclick="loadContent('${pageContext.request.contextPath}/phongtro/list')"><i class="fas fa-home"></i> Quản lý phòng</a>
     <a href="#" onclick="loadContent('${pageContext.request.contextPath}/khachthue/list')"><i class="fas fa-users"></i> Quản lý khách thuê</a>
     <a href="#" onclick="loadContent('${pageContext.request.contextPath}/hoadon/list')"><i class="fas fa-file-invoice"></i> Quản lý hóa đơn</a>
     <a href="#" onclick="loadContent('${pageContext.request.contextPath}/thongke/thongke')"><i class="fas fa-chart-bar"></i> Thống kê</a>
-    <a href="#" onclick="loadPendingBookings('${pageContext.request.contextPath}/home/pending')"><i class="fas fa-check-circle"></i> Xác nhận đặt phòng</a>
     <a href="${pageContext.request.contextPath}/logout" class="btn btn-danger mt-3 w-100"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
 </div>
 

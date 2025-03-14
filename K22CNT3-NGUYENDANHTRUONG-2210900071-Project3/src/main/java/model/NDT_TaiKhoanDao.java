@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-public class NDT_TaiKhoanDao {
+public class    NDT_TaiKhoanDao {
     private final JdbcTemplate jdbcTemplate;
 
     public NDT_TaiKhoanDao(JdbcTemplate jdbcTemplate) {

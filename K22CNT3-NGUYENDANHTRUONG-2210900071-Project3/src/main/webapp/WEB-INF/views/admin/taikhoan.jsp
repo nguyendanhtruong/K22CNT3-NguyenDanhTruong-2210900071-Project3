@@ -5,6 +5,63 @@
     <title>Quản lý Tài Khoản</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        /* Tùy chỉnh bảng */
+        .table-hover tbody tr:hover {
+            background-color: #f1f8ff;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Nút bling bling */
+        .btn {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Card header nổi bật */
+        .card-header {
+            background: linear-gradient(45deg, #007bff, #00d4ff);
+        }
+        .card-header.bg-success {
+            background: linear-gradient(45deg, #28a745, #34d058);
+        }
+        .card-header.bg-dark {
+            background: linear-gradient(45deg, #343a40, #6c757d);
+        }
+
+        /* Input focus phát sáng */
+        .form-control:focus {
+            border-color: #00d4ff;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        /* Animation cho card */
+        .card {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Container chính */
+        .container {
+            max-width: 1200px;
+            background: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Tiêu đề chính */
+        .text-primary {
+            text-shadow: 2px 2px 4px rgba(0, 123, 255, 0.3);
+        }
+    </style>
 </head>
 <body>
 <div class="container mt-4">
@@ -92,7 +149,7 @@
             <form action="edit" method="post" class="row g-3">
                 <div class="col-md-4">
                     <label class="form-label">Tên đăng nhập</label>
-                    <input type="text" id="editNDT_UserName" name="NDT_UserName" class="form-control" readonly>
+                    <input type="text" id="editNDT_UserName" name="NDT_UserName" class="form-control" required>
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">Mật khẩu</label>
@@ -115,17 +172,27 @@
 </div>
 
 <script>
-    // Hiển thị form sửa tài khoản
+    // Hiển thị form sửa tài khoản với hiệu ứng
     function editAccount(username, password, role) {
+        const form = document.getElementById('editFormContainer');
+        form.style.display = 'block';
+        form.style.opacity = '0';
+        setTimeout(() => {
+            form.style.transition = 'opacity 0.3s ease';
+            form.style.opacity = '1';
+        }, 10);
         document.getElementById('editNDT_UserName').value = username;
         document.getElementById('editNDT_Pass').value = password;
         document.getElementById('editNDT_Role').value = role;
-        document.getElementById('editFormContainer').style.display = 'block';
     }
 
-    // Ẩn form sửa tài khoản
+    // Ẩn form sửa tài khoản với hiệu ứng
     function hideEditForm() {
-        document.getElementById('editFormContainer').style.display = 'none';
+        const form = document.getElementById('editFormContainer');
+        form.style.opacity = '0';
+        setTimeout(() => {
+            form.style.display = 'none';
+        }, 300);
     }
 </script>
 

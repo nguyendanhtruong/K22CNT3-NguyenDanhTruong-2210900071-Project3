@@ -26,21 +26,37 @@ public class NDT_HoaDonController {
     @GetMapping("/add")
     public String showAddForm(Model model) {
         model.addAttribute("hoaDon", new NDT_HoaDon());
+        model.addAttribute("khachThueIds", hoaDonDAO.getAllKhachThueIds());
         return "hoadon/hoadon_form";
     }
 
     @PostMapping("/save")
-    public String saveHoaDon(@ModelAttribute("hoaDon") NDT_HoaDon hoaDon) {
-        if (hoaDon.getNDT_maHD() == null || hoaDon.getNDT_maHD().isEmpty()) {
-            return "redirect:/hoadon/add?error=missing_id";
+    public String saveHoaDon(@ModelAttribute("hoaDon") NDT_HoaDon hoaDon, Model model) {
+        if (hoaDon.getNDT_maHD() == null || hoaDon.getNDT_maHD().trim().isEmpty()) {
+            model.addAttribute("error", "Mã Hóa Đơn (NDT_maHD) là bắt buộc.");
+            model.addAttribute("hoaDon", hoaDon);
+            model.addAttribute("khachThueIds", hoaDonDAO.getAllKhachThueIds());
+            return "hoadon/hoadon_form";
         }
 
-        if (hoaDonDAO.getNDT_HoaDonById(hoaDon.getNDT_maHD()) == null) {
-            hoaDonDAO.insertNDT_HoaDon(hoaDon);
-        } else {
-            hoaDonDAO.updateNDT_HoaDon(hoaDon);
+        try {
+            if (hoaDonDAO.getNDT_HoaDonById(hoaDon.getNDT_maHD()) == null) {
+                hoaDonDAO.insertNDT_HoaDon(hoaDon);
+            } else {
+                hoaDonDAO.updateNDT_HoaDon(hoaDon);
+            }
+            return "redirect:/hoadon/list";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("hoaDon", hoaDon);
+            model.addAttribute("khachThueIds", hoaDonDAO.getAllKhachThueIds());
+            return "hoadon/hoadon_form";
+        } catch (org.springframework.dao.DataIntegrityViolationException e) {
+            model.addAttribute("error", "Không thể lưu hóa đơn: Mã hóa đơn đã tồn tại hoặc dữ liệu không hợp lệ.");
+            model.addAttribute("hoaDon", hoaDon);
+            model.addAttribute("khachThueIds", hoaDonDAO.getAllKhachThueIds());
+            return "hoadon/hoadon_form";
         }
-        return "redirect:/hoadon/list";
     }
 
     @GetMapping("/edit/{id}")
@@ -50,16 +66,27 @@ public class NDT_HoaDonController {
             return "redirect:/hoadon/list?error=not_found";
         }
         model.addAttribute("hoaDon", hoaDon);
+        model.addAttribute("khachThueIds", hoaDonDAO.getAllKhachThueIds());
         return "hoadon/hoadon_form";
     }
 
     @PostMapping("/update")
-    public String updateHoaDon(@ModelAttribute("hoaDon") NDT_HoaDon hoaDon) {
-        if (hoaDon.getNDT_maHD() == null || hoaDon.getNDT_maHD().isEmpty()) {
-            return "redirect:/hoadon/list?error=missing_id";
+    public String updateHoaDon(@ModelAttribute("hoaDon") NDT_HoaDon hoaDon, Model model) {
+        if (hoaDon.getNDT_maHD() == null || hoaDon.getNDT_maHD().trim().isEmpty()) {
+            model.addAttribute("error", "Mã Hóa Đơn (NDT_maHD) là bắt buộc.");
+            model.addAttribute("hoaDon", hoaDon);
+            model.addAttribute("khachThueIds", hoaDonDAO.getAllKhachThueIds());
+            return "hoadon/hoadon_form";
         }
-        hoaDonDAO.updateNDT_HoaDon(hoaDon);
-        return "redirect:/hoadon/list";
+        try {
+            hoaDonDAO.updateNDT_HoaDon(hoaDon);
+            return "redirect:/hoadon/list";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("hoaDon", hoaDon);
+            model.addAttribute("khachThueIds", hoaDonDAO.getAllKhachThueIds());
+            return "hoadon/hoadon_form";
+        }
     }
 
     @GetMapping("/delete/{id}")

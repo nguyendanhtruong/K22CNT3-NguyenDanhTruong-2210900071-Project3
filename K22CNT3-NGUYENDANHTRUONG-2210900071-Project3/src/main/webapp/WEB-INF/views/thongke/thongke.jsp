@@ -1,70 +1,143 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Thống kê</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thống Kê Phòng Trọ</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* Reset mặc định */
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-      text-align: center;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f0f4ff 0%, #e0e7ff 100%);
+      min-height: 100vh;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
     }
-
-    /* Tiêu đề */
     h2 {
-      color: #333;
-      margin-top: 20px;
-    }
-
-    /* Bảng thống kê */
-    table {
-      width: 60%;
-      margin: 20px auto;
-      border-collapse: collapse;
-      background: white;
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    /* Định dạng hàng và cột */
-    th, td {
-      padding: 12px;
+      color: #1e3a8a;
+      font-weight: 700;
       text-align: left;
-      border-bottom: 1px solid #ddd;
+      margin-bottom: 30px;
+      position: relative;
     }
-
-    /* Tiêu đề cột */
-    th {
-      background-color: #007bff;
-      color: white;
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 80px;
+      height: 3px;
+      background: #3b82f6;
+      border-radius: 2px;
+    }
+    .stats-container {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .stat-card {
+      background: #ffffff;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+    .stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    }
+    .stat-icon {
+      font-size: 30px;
+      color: #3b82f6;
+      margin-right: 20px;
+      width: 40px;
       text-align: center;
     }
-
-    /* Hàng xen kẽ màu */
-    tr:nth-child(even) {
-      background-color: #f2f2f2;
+    .stat-content {
+      flex-grow: 1;
     }
-
-    /* Tổng doanh thu in đậm */
-    .doanh-thu {
-      font-weight: bold;
+    .stat-label {
+      color: #1e3a8a;
+      font-weight: 600;
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+    .stat-value {
+      color: #4b5563;
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .doanh-thu .stat-value {
       color: #d9534f;
+      font-size: 28px;
     }
   </style>
 </head>
 <body>
-<h2>Thống kê phòng trọ</h2>
-<table>
-  <tr><th>Tổng số phòng:</th> <td>${thongKe.tongSoPhong}</td></tr>
-  <tr><th>Số phòng trống:</th> <td>${thongKe.soPhongTrong}</td></tr>
-  <tr><th>Số phòng đã thuê:</th> <td>${thongKe.soPhongDaThue}</td></tr>
-  <tr><th>Tổng số khách thuê:</th> <td>${thongKe.tongKhachThue}</td></tr>
-  <tr><th>Tổng doanh thu:</th> <td class="doanh-thu">${thongKe.doanhThu} VNĐ</td></tr>
-</table>
+<h2>Thống Kê Phòng Trọ</h2>
+<div class="stats-container">
+  <div class="stat-card">
+    <i class="fas fa-home stat-icon"></i>
+    <div class="stat-content">
+      <div class="stat-label">Tổng Số Phòng</div>
+      <div class="stat-value">${thongKe.tongSoPhong}</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <i class="fas fa-door-open stat-icon"></i>
+    <div class="stat-content">
+      <div class="stat-label">Số Phòng Trống</div>
+      <div class="stat-value">${thongKe.soPhongTrong}</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <i class="fas fa-door-closed stat-icon"></i>
+    <div class="stat-content">
+      <div class="stat-label">Số Phòng Đã Thuê</div>
+      <div class="stat-value">${thongKe.soPhongDaThue}</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <i class="fas fa-users stat-icon"></i>
+    <div class="stat-content">
+      <div class="stat-label">Tổng Số Khách Thuê</div>
+      <div class="stat-value">${thongKe.tongKhachThue}</div>
+    </div>
+  </div>
+  <div class="stat-card doanh-thu">
+    <i class="fas fa-money-bill-wave stat-icon"></i>
+    <div class="stat-content">
+      <div class="stat-label">Tổng Doanh Thu</div>
+      <c:set var="doanhThu" value="${thongKe.doanhThu}" />
+      <c:choose>
+        <c:when test="${doanhThu >= 1000000000}">
+          <div class="stat-value"><fmt:formatNumber value="${doanhThu / 1000000000}" pattern="#.##"/> tỷ VNĐ</div>
+        </c:when>
+        <c:when test="${doanhThu >= 1000000}">
+          <div class="stat-value"><fmt:formatNumber value="${doanhThu / 1000000}" pattern="#.#"/> triệu VNĐ</div>
+        </c:when>
+        <c:when test="${doanhThu >= 1000}">
+          <div class="stat-value"><fmt:formatNumber value="${doanhThu / 1000}" pattern="#,##0"/> nghìn VNĐ</div>
+        </c:when>
+        <c:otherwise>
+          <div class="stat-value"><fmt:formatNumber value="${doanhThu}" pattern="#,##0"/> VNĐ</div>
+        </c:otherwise>
+      </c:choose>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
